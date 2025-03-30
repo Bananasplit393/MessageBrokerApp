@@ -14,7 +14,7 @@ This application consists of two .NET services that communicate using RabbitMQ:
 - **Unit Testing**: Core business logic is covered by unit tests.
 
 ## Technologies Used
-- **.NET 8 **
+- **.NET 8**
 - **RabbitMQ** (Message Broker)
 - **PostgreSQL** (Database for storing valid messages)
 - **Docker** (Optional, for running RabbitMQ in a container)
