@@ -1,11 +1,14 @@
 # Message Broker App
 
 ## Overview
+
 This application consists of two .NET services that communicate using RabbitMQ:
+
 - **Producer**: Sends messages containing a timestamp and a counter.
 - **Consumer**: Processes messages based on their timestamp and applies business logic.
 
 ## Features
+
 - **Message Production**: The producer continuously generates messages with a timestamp and a counter.
 - **Message Processing**: The consumer retrieves messages from the queue and processes them based on their timestamp:
   - If the message is older than 1 minute, it is discarded.
@@ -14,36 +17,44 @@ This application consists of two .NET services that communicate using RabbitMQ:
 - **Unit Testing**: Core business logic is covered by unit tests.
 
 ## Technologies Used
-- **.NET 8**
+
+- **.NET 9.0**
 - **RabbitMQ** (Message Broker)
 - **PostgreSQL** (Database for storing valid messages)
 - **Docker** (Optional, for running RabbitMQ in a container)
 
 ## Installation & Setup
+
 ### Prerequisites
+
 - Install [.NET SDK](https://dotnet.microsoft.com/download)
 - Install [RabbitMQ](https://www.rabbitmq.com/download.html) or use Docker
 - Install PostgreSQL or MongoDB if using a database
 
 ### Running with Docker
+
 You can use Docker to run RabbitMQ locally:
+
 ```sh
 docker-compose up -d
 ```
 
 ### Running the Producer
+
 ```sh
 cd Producer
  dotnet run
 ```
 
 ### Running the Consumer
+
 ```sh
 cd Consumer
 dotnet run
 ```
 
 ## Project Structure
+
 ```
 MessageBrokerApp/
 │── Producer/        # Producer Service
@@ -56,6 +67,5 @@ MessageBrokerApp/
 ```
 
 ## Future Enhancements
+
 - Dynamic Configuration of values
-
-
