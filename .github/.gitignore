@@ -2,8 +2,8 @@
 # .gitignore for MessageBrokerApp
 
 # Build artifacts
-bin/
-obj/
+**/bin/
+**/obj/
 
 # .NET user-specific files
 *.user
