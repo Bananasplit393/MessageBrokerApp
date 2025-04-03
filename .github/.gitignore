@@ -1,0 +1,72 @@
+# .gitignore for MessageBrokerApp
+
+# Build artifacts and binary directories
+**/bin/
+**/obj/
+
+# Project-specific build outputs
+Consumer/bin/
+Consumer/obj/
+Producer/bin/
+Producer/obj/
+Tests/bin/
+Tests/obj/
+
+# .NET user-specific files
+*.user
+*.vspscc
+*.suo
+*.cache
+*.vscode
+
+# Logs
+*.log
+logs/
+
+# Environment files
+.env
+
+# Dependency directories
+node_modules/
+packages/
+
+# Docker files
+.dockerignore
+docker-compose.override.yml
+
+# IDE settings
+.vscode/
+.idea/
+*.sln.DotSettings
+
+# Test results
+TestResults/
+
+# Database files
+*.db
+*.sqlite
+
+# Other
+**/secrets.json
+.DS_Store
+.fake
+
+# Visual Studio files
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+
+# ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# NuGet
+*.nupkg
+# NuGet Symbol Packages
+*.snupkg
+# The packages folder can be ignored because of Package Restore
+**/[Pp]ackages/*
+# except build/, which is used as an MSBuild target.
+!**/[Pp]ackages/build/
