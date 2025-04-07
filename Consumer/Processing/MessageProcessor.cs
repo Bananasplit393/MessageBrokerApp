@@ -17,7 +17,7 @@ public class MessageProcessor : IMessageProcessor, IDisposable
     {
         var messageAge = DateTime.UtcNow - message.Timestamp;
         
-        if (messageAge.TotalMinutes > 1 || message.ReQueueCounter >= 3)
+        if (messageAge.TotalMinutes > 1 || message.ReQueueCounter >= 3 || message.Timestamp.Second % 2 == 1)
         {
             Console.WriteLine("Message discarded");
             return new ProcessingResult { Action = ProcessingAction.Discard };
@@ -28,6 +28,8 @@ public class MessageProcessor : IMessageProcessor, IDisposable
             await _databaseService.StoreMessage(message);
             return new ProcessingResult { Action = ProcessingAction.Store };
         }
+
+
         else
         {
             message.Counter++;

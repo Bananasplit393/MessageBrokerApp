@@ -38,11 +38,18 @@ public class MessageProcessorTests
     public async Task ProcessMessage_EvenSeconds_ShouldBeStored()
     {
         // Arrange
+        var timestamp = DateTime.UtcNow;
+
+        // Ensure the seconds are even
+        if (timestamp.Second % 2 == 1)
+        {
+            timestamp = timestamp.AddSeconds(1);
+        }
+
         var message = new Message
         {
-            // Even second
-            Timestamp = new DateTime(2025, 4, 7, 12, 0, 2), // April 7, 2025, 12:00:02 PM
-            Counter = 1
+            Timestamp = timestamp,
+            Counter = 2
         };
 
         // Act
@@ -53,15 +60,25 @@ public class MessageProcessorTests
         _mockDatabase.Verify(x => x.StoreMessage(It.IsAny<Message>()), Times.Once);
     }
 
+
+    // I suspect test is failing cause of ReQueueCounter
     [Fact]
     public async Task ProcessMessage_OddSeconds_ShouldBeRequeued()
     {
         // Arrange
+        var timestamp = DateTime.UtcNow;
+
+        // Ensure the seconds are odd
+        if (timestamp.Second % 2 == 0)
+        {
+            timestamp = timestamp.AddSeconds(1);
+        }
+
         var message = new Message
         {
-            // Odd second
-            Timestamp = new DateTime(2025, 4, 7, 12, 0, 1), // April 7, 2025, 12:00:01 PM
-            Counter = 1
+            Timestamp = timestamp,
+            Counter = 2,
+            ReQueueCounter = 1
         };
 
         // Act
@@ -69,6 +86,6 @@ public class MessageProcessorTests
 
         // Assert
         Assert.Equal(ProcessingAction.Requeue, result.Action);
-        Assert.Equal(2, result.Message.Counter); // Counter should be incremented
+        Assert.Equal(2, result.Message.Counter); // Counter should be incremented this should møøst definitely have it's own test
     }
 } 
