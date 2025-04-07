@@ -7,6 +7,19 @@ Console.CancelKeyPress += (s, e) =>
     cts.Cancel();
 };
 
-var databaseService = new PostgresDatabaseService("Host=localhost;Database=messages;Username=postgres;Password=postgres");
+var connectionString = "Host=localhost;Database=messages;Username=postgres;Password=postgres";
+var databaseService = new PostgresDatabaseService(connectionString);
+
+//Console.WriteLine("Ensuring database table exists...");
+
+//await databaseService.EnsureTableExists();
+
+Console.WriteLine("Starting message processing...");
+
 using var processor = new MessageProcessor(databaseService);
+
+Console.WriteLine("Processing messages...");
+
 await processor.ProcessMessages(cts.Token);
+
+Console.WriteLine("Message processing stopped.");

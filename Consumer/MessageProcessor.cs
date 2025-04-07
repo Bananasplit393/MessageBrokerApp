@@ -27,20 +27,30 @@ public class MessageProcessor : IDisposable
         
         consumer.Received += async (model, ea) =>
         {
-            var body = ea.Body.ToArray();
-            var json = System.Text.Encoding.UTF8.GetString(body);
-            var message = JsonSerializer.Deserialize<Message>(json);
+        var body = ea.Body.ToArray();
+        var json = System.Text.Encoding.UTF8.GetString(body);
+        var message = JsonSerializer.Deserialize<Message>(json);
 
-            var result = await ProcessMessage(message);
-            
-            if (result.Action == ProcessingAction.Requeue)
-            {
-                var updatedJson = JsonSerializer.Serialize(result.Message);
-                var updatedBody = System.Text.Encoding.UTF8.GetBytes(updatedJson);
-                _channel.BasicPublish("", QueueName, null, updatedBody);
-            }
+        if (message == null)
+        {
+            Console.WriteLine("Received null message");
+            return;
+        }
 
-            _channel.BasicAck(ea.DeliveryTag, false);
+        Console.WriteLine($"Received message: Content={message.Content}, Timestamp={message.Timestamp}, Counter={message.Counter}");
+
+        var result = await ProcessMessage(message);
+
+        Console.WriteLine($"Processing result: Action={result.Action}");
+
+        if (result.Action == ProcessingAction.Requeue) 
+        {
+            var updatedJson = JsonSerializer.Serialize(result.Message);
+            var updatedBody = System.Text.Encoding.UTF8.GetBytes(updatedJson);
+            _channel.BasicPublish("", QueueName, null, updatedBody);
+        }
+
+        _channel.BasicAck(ea.DeliveryTag, false);
         };
 
         _channel.BasicConsume(QueueName, false, consumer);
@@ -59,6 +69,12 @@ public class MessageProcessor : IDisposable
             return new ProcessingResult { Action = ProcessingAction.Discard };
         }
 
+        if (message.ReQueueCounter >= 3)
+        {
+            Console.WriteLine($"Message discarded becuase RequeueCounter is greater than 3");
+            return new ProcessingResult { Action = ProcessingAction.Discard };
+        }
+
         // Check if seconds are even or odd
         if (message.Timestamp.Second % 2 == 0)
         {
@@ -70,10 +86,11 @@ public class MessageProcessor : IDisposable
         {
             // Odd seconds - increment counter and requeue
             message.Counter++;
+            message.ReQueueCounter++;
             return new ProcessingResult 
             { 
                 Action = ProcessingAction.Requeue,
-                Message = message 
+                Message = message,
             };
         }
     }

@@ -26,6 +26,7 @@ public class ProducerService : IDisposable
         {
             var message = new Message
             {
+                Content = $"message {counter}",
                 Timestamp = DateTime.UtcNow,
                 Counter = counter++
             };
@@ -34,7 +35,7 @@ public class ProducerService : IDisposable
             var body = System.Text.Encoding.UTF8.GetBytes(json);
             
             _channel.BasicPublish("", QueueName, null, body);
-            Console.WriteLine($"Sent message: Timestamp={message.Timestamp}, Counter={message.Counter}");
+            Console.WriteLine($"Sent message: Content={message.Content}, Timestamp={message.Timestamp}, Counter={message.Counter}");
             
             await Task.Delay(1000, cancellationToken); // 1 second delay
         }
