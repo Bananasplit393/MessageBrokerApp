@@ -4,6 +4,7 @@
 # Build artifacts
 **/bin/
 **/obj/
+*.exe
 
 # .NET user-specific files
 *.user
@@ -11,6 +12,7 @@
 *.suo
 *.cache
 *.vscode
+
 
 # Logs
 *.log
@@ -38,8 +40,10 @@ TestResults/
 # Database files
 *.db
 *.sqlite
+*.pdb
 
 # Other
 **/secrets.json
-.DS_Store
-.fake
+*.DS_Store
+*.fake
+*.dll 
