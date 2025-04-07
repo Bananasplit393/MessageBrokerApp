@@ -3,7 +3,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Shared\Shared.csproj" />
     <PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
-    <PackageReference Include="Npgsql" Version="8.0.2" />
+    <PackageReference Include="Npgsql" Version="9.0.3" />
   </ItemGroup>
 
   <PropertyGroup>
