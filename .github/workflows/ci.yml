@@ -68,7 +68,7 @@ jobs:
       - name: Security scan
         uses: snyk/actions/dotnet@master
         env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          SNYK_TOKEN: ${{ secrets.SNYKTOKEN }}
 
       - name: Verify build artifacts
         run: |
