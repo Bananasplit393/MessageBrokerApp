@@ -10,7 +10,7 @@ public class DatabaseServiceTests
     [Fact]
     public void CanConnectToDatabase()
     {
-        var connectionString = "Host=localhost;Port=5432;Username=postgres;Password=postgres;Database=messages"; // Needs changing
+        var connectionString = "Host=localhost;Database=messages;Username=postgres;Password=postgres";
         using var connection = new NpgsqlConnection(connectionString);
         connection.Open();
         Assert.True(connection.State == System.Data.ConnectionState.Open);

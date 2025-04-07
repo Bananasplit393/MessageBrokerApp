@@ -1,6 +1,7 @@
 using Xunit;
 using Moq;
 using Consumer;
+using Consumer.Processing;
 using Shared.Models;
 
 namespace Tests;
@@ -39,7 +40,8 @@ public class MessageProcessorTests
         // Arrange
         var message = new Message
         {
-            Timestamp = DateTime.UtcNow.AddSeconds(-2), // Ensure even seconds
+            // Even second
+            Timestamp = new DateTime(2025, 4, 7, 12, 0, 2), // April 7, 2025, 12:00:02 PM
             Counter = 1
         };
 
@@ -57,7 +59,8 @@ public class MessageProcessorTests
         // Arrange
         var message = new Message
         {
-            Timestamp = DateTime.UtcNow.AddSeconds(-1), // Ensure odd seconds
+            // Odd second
+            Timestamp = new DateTime(2025, 4, 7, 12, 0, 1), // April 7, 2025, 12:00:01 PM
             Counter = 1
         };
 
